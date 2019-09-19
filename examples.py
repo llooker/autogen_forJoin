@@ -67,7 +67,7 @@ for table_name in test:
                 tmp_view + dim
 
 ############################
-# Example 2. Custom LookML patterns
+# Example 3. Custom LookML patterns
 ############################
     tmp_view.addComparisonPeriod(tmp_view.id, tmp_view.value, measure_type='count')
 
