@@ -1,8 +1,8 @@
 import re
 NONUNIQUE_PROPERTIES = {'include','link', 'filters', 'bind_filters', 'data_groups', 'named_value_format', 'sets', 'column'}
 TIMEFRAMES = ['raw', 'year', 'quarter', 'month', 'week', 'date', 'day_of_week', 'hour', 'hour_of_day', 'minute', 'time', 'time_of_day']
-DB_FIELD_DELIMITER_START = '`' 
-DB_FIELD_DELIMITER_END = '`'
+DB_FIELD_DELIMITER_START = '"' 
+DB_FIELD_DELIMITER_END = '"'
 OUTPUT_DIR = ''
 INDENT = ' '*4
 NEWLINE = '\n'
@@ -423,7 +423,7 @@ class View(writeable):
         return self
 
     def addSum(self, f):
-        '''Add a count distinct to the view based on a field object or field name/identifier. returns self'''
+        '''Add a sum to the view based on a field object or field name/identifier. returns self'''
         if isinstance(f, Field):
             field = f
         else:
@@ -432,6 +432,19 @@ class View(writeable):
             identifier=''.join(['total_', field.identifier]), schema={'sql': field.ref_short}
         )
         measure.setType('sum')
+        self.addField(measure)
+        return self
+    
+    def addAverage(self, f):
+        '''Add a average to the view based on a field object or field name/identifier. returns self'''
+        if isinstance(f, Field):
+            field = f
+        else:
+            field = self.getField(f)
+        measure = Measure(
+            identifier=''.join(['average_', field.identifier]), schema={'sql': field.ref_short}
+        )
+        measure.setType('average')
         self.addField(measure)
         return self
 
