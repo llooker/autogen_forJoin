@@ -2,17 +2,6 @@ import lookml_gen as l
 import datetime as dt
 
 ############################
-# Example 1. Setting up the Looker View with 2 dimensions, id, value and dimnension group, created_at
-############################
-# order_items = l.View('order_items')
-
-# order_items + 'id' + 'value' + l.DimensionGroup('created_at')
-
-# order_items.setSqlTableName('public.order_items')
-
-# print(order_items)
-
-############################
 # Example 2. Custom LookML templates
 ############################
 import api as api
@@ -70,12 +59,7 @@ for table_name in test:
                 dim.hide()
                 tmp_view + dim
 
-    # print(tmp_view)
-
-    # tmp_view.write()
-
-############################
-# Example 3. Custom LookML patterns
-############################
     tmp_view.addComparisonPeriod(tmp_view.id, tmp_view.created_at, measure_type='count')
     print(tmp_view)
+
+    # tmp_view.write()
