@@ -1,0 +1,140 @@
+view: users {
+  sql_table_name: demo_db.users ;;
+
+  dimension: id {
+    primary_key: yes
+    type: number
+    sql: ${TABLE}.id ;;
+  }
+
+  dimension: age {
+    type: number
+    sql: ${TABLE}.age ;;
+  }
+
+  parameter: test {
+    allowed_value: {
+      label: "test"
+      value: "test"
+    }
+    allowed_value: {
+      label: "test1"
+      value: "test2"
+    }
+  }
+
+  dimension: parameter_dim {
+    type: yesno
+    sql: {% condition test._parameter_value %} {% parameter test %} {% endcondition %}
+ ;;
+  }
+
+  dimension: city {
+    type: string
+    sql: ${TABLE}.city ;;
+  }
+
+  dimension: country {
+    type: string
+    map_layer_name: countries
+    sql: ${TABLE}.country ;;
+  }
+
+  dimension_group: created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: email {
+    type: string
+    sql: ${TABLE}.email ;;
+  }
+
+#   dimension: test {
+#     type: string
+#     sql: "hugo" ;;
+#     html: <img src="https://www.publicdomainpictures.net/pictures/140000/velka/banner-header-1449745167Dld.jpg#.XIvn7-H1ZD4.link" width="100%" /> ;;
+#   }
+
+  dimension: first_name {
+    type: string
+    sql: ${TABLE}.first_name ;;
+    html: {% if _user_attributes['email_2'] == 'hugo'  %}
+            <a href="https://www.w3schools.com">{{rendered_value}}</a>
+          {% else %}
+            {{rendered_value}}
+          {% endif %} ;;
+#     link: {
+#       label: "{% if _user_attributes['email_2'] == 'hugo'  %} 'hugo' {% else %} 'nothugo' {% endif %}"
+#       url: "{% if _user_attributes['email_2'] == 'hugo'  %} http://www.google.com {% else %} http://www.bbc.co.uk {% endif %}"
+#     }
+  }
+
+  dimension: gender {
+    type: string
+    sql: ${TABLE}.gender ;;
+  }
+
+  dimension: last_name {
+    type: string
+    sql: ${TABLE}.last_name ;;
+  }
+
+  dimension: state {
+    type: string
+    sql: ${TABLE}.state ;;
+  }
+
+  dimension: zip {
+    type: zipcode
+    sql: ${TABLE}.zip ;;
+  }
+
+  measure: heading1 {
+    type: count_distinct
+    sql: ${email} ;;
+    html:
+    <div class="vis">
+    <div class="vis-single-value" style="font-size:30px; background-image: linear-gradient(to right, #021999, #87e8ea); color:#ffffff">
+    <font color="#5A2FC2"><center><b>This is some text leading to a measure value:</b>&nbsp; {{value}} </font>
+    <p><em>November 2018</em></p>
+    <p style="color:#95b67f;">{{ order_items.total_saleprice._rendered_value }} this is another measure </p>
+    <p style="float:left; font-family: Times, serif;">
+    <i class="fa fa-2x fa-bug">&nbsp;</i>Encounters had {{ fontawesome._rendered_value }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-2x fa-certificate">&nbsp;</i>Members counted {{ fontawesome._rendered_value | divided_by: 5 }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-2x fa-clipboard">&nbsp;</i>Provider Numbers {{ fontawesome._rendered_value | times: 3 }}</p></center>
+    </div>
+    </div>      ;;
+  }
+
+  measure: fontawesome {
+    type: sum
+    sql: ${age} ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  # ----- Sets of fields for drilling ------
+  set: detail {
+    fields: [
+      id,
+      first_name,
+      last_name,
+      events.count,
+      orders.count,
+      user_data.count
+    ]
+  }
+}

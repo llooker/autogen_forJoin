@@ -1,11 +1,11 @@
 import lookml_gen as l 
 import datetime as dt
-
-############################
-# Example 2. Custom LookML templates
-############################
 import api as api
 import pprint as pp
+
+############################
+# Example 3. Custom LookML templates
+############################
 
 ###
 # Creating connection to the looker instance to make api calls against the sql_runner
