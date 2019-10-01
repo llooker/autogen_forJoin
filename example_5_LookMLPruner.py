@@ -35,7 +35,11 @@ with open(lookml, 'r') as file:
                     if parsed_view['views'][0]['name'] + "." + each2['name'] in uuf:
                         parsed_view['views'][0][each][number]['hidden'] = "no"
                         print(each + ": " + parsed_view['views'][0]['name'] + "." + each2['name'] + " is unused so hiding...")
-    
+
+#######
+# Step 5. Write amended JSON back to LookML
     with open(lookml+'_out', 'w+') as outfile:      
         lkml.dump(parsed_view, outfile)
+
+
     pp.pprint(parsed_view)

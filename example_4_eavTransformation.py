@@ -11,9 +11,7 @@ pdthash = 'profservices_scratch.LR$H2W42B5EBFK26PU9ZQJHE_base_eav_data'
 
 ###
 # SQL to run against sql_runner, assuming we're doing an information_schema scan to generate tables
-sql = '''
-SELECT * FROM {0} AS base_eav_data
-'''.format(pdthash)
+sql = f'SELECT * FROM {pdthash} AS base_eav_data'
 
 ###
 # API method to run above sql aginst the inputted connection
@@ -27,17 +25,18 @@ amended_column_names = [name.replace(" ", "_") for name in column_names]
 select_clause = []
 for row in column_names:
     
-    tmp_field = ', MAX(CASE WHEN EAV_data.column_name = \'{0}\' THEN EAV_data.column_value ELSE null END) AS \"{0}\"'.format(row)
+    tmp_field = f', MAX(CASE WHEN EAV_data.column_name = \'{row}\' THEN EAV_data.column_value ELSE null END) AS \"{row}\"'
 
     select_clause.append(tmp_field)
 select_clause = '\n'.join(select_clause)
-sql = '''
+sql = f'''
 SELECT
-    EAV_data.schema_id, EAV_data.entity_id
-        {0}
-FROM {1} as EAV_data
+    EAV_data.schema_id
+    , EAV_data.entity_id
+        {select_clause}
+FROM {pdthash} as EAV_data
         GROUP BY 1,2
-'''.format(select_clause, pdthash)
+'''
 # pp.pprint(sql)
 
 tmp_view = l.View('example_derived_volatile', derived_table = {'sql':sql})

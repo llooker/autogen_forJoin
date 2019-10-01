@@ -62,4 +62,4 @@ for table_name in test:
     tmp_view.addComparisonPeriod(tmp_view.id, tmp_view.created_at, measure_type='count')
     print(tmp_view)
 
-    # tmp_view.write()
+    tmp_view.setFolder('output').write()

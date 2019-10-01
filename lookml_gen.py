@@ -69,10 +69,10 @@ class writeable(object):
         self.extension = kwargs.get('extension', '.lkml')
         self.fileName = self.identifier + self.extension     
         self.outputFolder = kwargs.get('output_dir',OUTPUT_DIR)
-        # if self.outputFolder:
-        #     self.path = self.outputFolder  + self.fileName if self.outputFolder.endswith('/') else self.outputFolder  + '/' +  self.fileName
-        # else:
-        #     self.path = self.fileName
+        if self.outputFolder:
+            self.path = self.outputFolder  + self.fileName if self.outputFolder.endswith('/') else self.outputFolder  + '/' +  self.fileName
+        else:
+            self.path = self.fileName
 
         # super(writeable, self).__init__(self, *args, **kwargs)
 
@@ -690,6 +690,7 @@ class Model(writeable):
         self.schema = kwargs.get('schema', {})
         self.properties = Properties(self.schema)
         self.explores = {}
+        self.access_grants = {}
         self.fileName = self.identifier + '.model.lkml'
         if self.outputFolder:
             self.path = self.outputFolder  + self.fileName if self.outputFolder.endswith('/') else self.outputFolder  + '/' +  self.fileName
@@ -723,6 +724,13 @@ class Model(writeable):
         else:
             self.properties.addProperty('include',file) 
         return self 
+
+    def addAccessGrant(self, access_grant):
+        self.access_grants.update({Field_Level_Permissions.identifier: access_grant})
+
+    def getAccessGrants(self):
+        for field, literal in self.access_grants.items():
+            yield literal
 
     def setName(self, name):
        self.setIdentifier(name)
@@ -970,6 +978,13 @@ class Dimension(Field):
             self.setProperty('tiers', '[' + ','.join(tiers) + ']')
         return self.setType('tier')
 
+    def set_Field_Level_Permission(self, access_grant):
+        if isinstance(access_grant,str):
+            self.setProperty('required_access_grants', '[' + ','.join([access_grant]) + ']')
+        elif isinstance(access_grant,list):
+            self.setProperty('required_access_grants', '[' + ','.join(access_grant) + ']')
+        return self
+
     def addLink(self,url,label,icon_url='https://looker.com/favicon.ico'):
         self.properties.addProperty('link',{
              'url'     :url
@@ -1037,3 +1052,19 @@ class Parameter(Field):
                         NEWLINE,'parameter: ', 
                         super(Parameter, self).__str__()
                         )
+
+class Field_Level_Permissions(Field):
+    def __init__(self, *args, **kwargs):
+        super(Field_Level_Permissions, self).__init__(self, *args, **kwargs)
+
+    def __str__(self):
+        return splice(
+                        '\naccess_grant: ', 
+                        super(Field_Level_Permissions, self).__str__()
+                        )
+    
+    def set_User_Attribute(self, user_attribute):
+        return self.setProperty('user_attribute', user_attribute)
+         
+    def set_Allowed_Value(self, allowed_value):
+        return self.setProperty('allowed_values', '["%s"]' %allowed_value)                        
