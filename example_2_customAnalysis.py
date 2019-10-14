@@ -11,4 +11,6 @@ order_items.setSqlTableName('public.order_items')
 
 order_items.addComparisonPeriod(order_items.id, order_items.created_at, measure_type='count_distinct')
 
-print(order_items)
+order_items.setFolder(folder='/Users/hugoselbie/looker_stuff/code_sample/py/autogen_testing/join2019_demo/LookMLWriteOutput/')
+
+order_items.write()

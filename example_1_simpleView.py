@@ -9,4 +9,4 @@ order_items + 'id' + 'value' + l.DimensionGroup('created_at')
 
 order_items.setSqlTableName('public.order_items')
 
-print(order_items)
+# print(order_items)

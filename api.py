@@ -49,29 +49,3 @@ class lookerAPIClient:
     def run_sql_runner(self, query_slug):
         response = requests.post(self.uri_full +'/sql_queries'+'/'+query_slug+'/'+'run'+'/'+'json', headers=self.auth_headers, verify=True)
         return response
-
-    def get_columns(self, limit=100000, 
-                                    fields=
-                                    ["columns.table_schema",
-                                    "columns.createduserid"
-                                    "columns.table_name",
-                                    "columns.column_name",
-                                    "columns.data_type"],
-                                    filters={
-                                        "columns.table_schema":""
-                                        ,"columns.table_name":""
-                                    }
-                                    ):
-                optional_arguments = '&' + 'limit=' + str(limit)
-                query_config = {
-                                "fields": [
-                                    *fields
-                                ],
-                                "filters": {
-                                        **filters
-                                },
-                                "model": config.get('api', 'information_schema_model'),
-                                "view": config.get('api', 'explore')
-                                }
-                return self.post(call='queries/run/json?force_production=true' + optional_arguments, json_payload=query_config)
-

@@ -4,11 +4,10 @@ import pprint as pp
 #######
 # Step 1. Run the Henry Command `henry vacuum explores --host IDENTIFIER_FROM_CONFIG --path PATH_TO_CONFIG.yml --output /PATH_TO_OUTPUT.csv --plain`
 henryOutput = '/Users/hugoselbie/looker_stuff/henry_joinupdate/hugo1.csv'
-lookml = '/Users/hugoselbie/looker_stuff/code_sample/py/autogen_testing/join2019_demo/pruner_files/users.lkml'
+lookml = '/Users/hugoselbie/looker_stuff/code_sample/py/autogen_testing/join2019_demo/LookMLWriteOutput/example_5_LookMLPruner_files/users.lkml'
 #######
 # Step 2. Using the Pandas Library to clean the henry response and create a list of unused fields
 henry = pd.read_csv(henryOutput)
-un = henry['unused_fields'].tolist()
 
 unusedFields = henry['unused_fields'].str.split("\\n", n= 2, expand = True) 
 henry['newunused'] = unusedFields[0]
@@ -33,7 +32,7 @@ with open(lookml, 'r') as file:
                 for number in range(len(values)):
                     each2=parsed_view['views'][0][each][number]
                     if parsed_view['views'][0]['name'] + "." + each2['name'] in uuf:
-                        parsed_view['views'][0][each][number]['hidden'] = "no"
+                        parsed_view['views'][0][each][number]['hidden'] = "yes"
                         print(each + ": " + parsed_view['views'][0]['name'] + "." + each2['name'] + " is unused so hiding...")
 
 #######

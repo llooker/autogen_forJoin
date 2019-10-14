@@ -8,7 +8,6 @@ INDENT = ' '*4
 NEWLINE = '\n'
 NEWLINEINDENT = ''.join([NEWLINE,INDENT])
 
-
 def snakeCase(string):
     str1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', string)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', str1).lower()
@@ -70,14 +69,13 @@ class writeable(object):
         self.fileName = self.identifier + self.extension     
         self.outputFolder = kwargs.get('output_dir',OUTPUT_DIR)
         if self.outputFolder:
-            self.path = self.outputFolder  + self.fileName if self.outputFolder.endswith('/') else self.outputFolder  + '/' +  self.fileName
+            self.path = self.outputFolder + self.fileName if self.outputFolder.endswith('/') else self.outputFolder  + '/' +  self.fileName
         else:
             self.path = self.fileName
 
-        # super(writeable, self).__init__(self, *args, **kwargs)
-
     def setFolder(self,folder):
         self.outputFolder = folder
+        self.path = self.outputFolder + self.fileName if self.outputFolder.endswith('/') else self.outputFolder  + '/' +  self.fileName
         return self
 
     def setName(self, identifier):
@@ -943,6 +941,13 @@ class Field(object):
         self.properties.delProperty('hidden')
         return self
 
+    def set_Field_Level_Permission(self, access_grant):
+        if isinstance(access_grant,str):
+            self.setProperty('required_access_grants', '[' + ','.join([access_grant]) + ']')
+        elif isinstance(access_grant,list):
+            self.setProperty('required_access_grants', '[' + ','.join(access_grant) + ']')
+        return self
+
 class Dimension(Field):
     def __init__(self, *args, **kwargs):
         super(Dimension, self).__init__(self, *args, **kwargs)
@@ -977,13 +982,6 @@ class Dimension(Field):
         else:
             self.setProperty('tiers', '[' + ','.join(tiers) + ']')
         return self.setType('tier')
-
-    def set_Field_Level_Permission(self, access_grant):
-        if isinstance(access_grant,str):
-            self.setProperty('required_access_grants', '[' + ','.join([access_grant]) + ']')
-        elif isinstance(access_grant,list):
-            self.setProperty('required_access_grants', '[' + ','.join(access_grant) + ']')
-        return self
 
     def addLink(self,url,label,icon_url='https://looker.com/favicon.ico'):
         self.properties.addProperty('link',{

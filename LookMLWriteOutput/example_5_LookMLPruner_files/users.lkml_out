@@ -10,7 +10,7 @@ view: users {
   dimension: age {
     type: number
     sql: ${TABLE}.age ;;
-    hidden: no
+    hidden: yes
   }
 
   dimension: parameter_dim {
