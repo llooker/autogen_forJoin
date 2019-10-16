@@ -64,9 +64,22 @@ for data in view_data:
         tmp_view + dim
 ###
 # Adding a series of measures of type sum with field level permissioning
-    measure = l.Measure('total_'+data['column_name']).setProperty('sql',data['column_name']).setType('sum')
+    measure = l.Measure('total_'+data['column_name']).setProperty('sql','${'+data['column_name']+'}').setType('sum')
     measure.set_Field_Level_Permission(f'eid_{entity_id}')
     tmp_view + measure
 
-tmp_view.write()
-    # print(tmp_view)
+# tmp_view.write()
+
+eidAccessGrants = list(set([data['entity_id'] for data in view_data]))
+tmp_model = l.Model('access_grant_model')
+tmp_model.setConnection('thelook_events_redshift')
+
+explore = l.Explore('test')
+
+for grant in eidAccessGrants:
+    field = l.Field_Level_Permissions(grant)
+    field.set_User_Attribute('entity_id')
+    field.set_Allowed_Value(grant)
+    tmp_model.addAccessGrant(field)
+
+print(tmp_model)

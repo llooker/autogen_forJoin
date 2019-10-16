@@ -698,7 +698,8 @@ class Model(writeable):
     def __str__(self):
         return splice(
                         '\n'.join([str(p) for p in self.properties.getProperties()]), 
-                        '\n' * 5, '\n'.join([str(e) for e in self.getExplores()])
+                        '\n' * 5, '\n'.join([str(e) for e in self.getExplores()]),
+                        '\n' * 5, '\n'.join([str(e) for e in self.getAccessGrants()])
                         )
 
     def __getattr__(self, key):
@@ -724,7 +725,7 @@ class Model(writeable):
         return self 
 
     def addAccessGrant(self, access_grant):
-        self.access_grants.update({Field_Level_Permissions.identifier: access_grant})
+        self.access_grants.update({access_grant.identifier: access_grant})
 
     def getAccessGrants(self):
         for field, literal in self.access_grants.items():
@@ -1066,3 +1067,4 @@ class Field_Level_Permissions(Field):
          
     def set_Allowed_Value(self, allowed_value):
         return self.setProperty('allowed_values', '["%s"]' %allowed_value)                        
+

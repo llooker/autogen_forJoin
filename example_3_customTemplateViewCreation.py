@@ -62,5 +62,5 @@ for table_name in test:
                 tmp_view + dim
 
     tmp_view.addComparisonPeriod(tmp_view.id, tmp_view.created_at, measure_type='count')
-    print(tmp_view)
+    # print(tmp_view)
     tmp_view.write()
