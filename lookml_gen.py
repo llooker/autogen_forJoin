@@ -21,11 +21,6 @@ def removeSpace(string):  # removing special character / [|]<>,.?}{+=~!$%^&*()-
 def lookCase(string):
     return removeSpace(snakeCase(string))
 
-# class Project(object):
-#     def __init__(self):
-#         pass
-
-
 class ndt(object):
     def __init__(self,explore_source):
         self._columns = {}
@@ -52,7 +47,6 @@ class ndt(object):
              ,NEWLINEINDENT.join(['derived_column: ' + k + ' { sql: ' + v + ';; }' for k,v in self._dcolumns.items()])
             ,NEWLINEINDENT,'}',NEWLINE,'}'
         )
-
 
 class writeable(object):
     def __init__(self, *args, **kwargs):
