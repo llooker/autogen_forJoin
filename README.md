@@ -18,3 +18,13 @@ These example code samples and outputs are meant to illustrate potential workflo
 3. Creating a  custom template from an api call to the information schema with hidden fields, extension required
 4. EAV transformation using a derived table and api call to the information schema, with associated field level permissioning
 5. LookML pruner assuming using Henry and lkml
+
+### To make api method work
+You'll need an ini file that looks like this 
+```[api]
+host = https://yourinstance.looker.com
+client_id = your_client_id
+secret = your_secret 
+port = your_port(likely 19999)
+version = 3.1
+```
