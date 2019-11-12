@@ -1,4 +1,4 @@
-import lookml_gen as l 
+import lookml as l 
 import datetime as dt
 import api as api
 import pprint as pp

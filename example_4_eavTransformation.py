@@ -1,4 +1,4 @@
-import lookml_gen as l 
+import lookml as l 
 import datetime as dt
 import api as api
 import pprint as pp
@@ -83,4 +83,4 @@ for grant in eidAccessGrants:
     tmp_model.addAccessGrant(field)
 
 tmp_model.write()
-# print(tmp_model)
+print(tmp_model)

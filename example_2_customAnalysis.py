@@ -1,4 +1,4 @@
-import lookml_gen as l 
+import lookml as l 
 
 #############################
 # Example 2. Custom LookML patterns

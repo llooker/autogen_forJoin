@@ -1,4 +1,4 @@
-import lookml_gen as l 
+import lookml as l 
 
 ############################
 # Example 1. Setting up the Looker View with 2 dimensions, id, value and dimnension group, created_at
@@ -9,4 +9,4 @@ order_items + 'id' + 'value' + l.DimensionGroup('created_at')
 
 order_items.setSqlTableName('public.order_items')
 
-# print(order_items)
+print(order_items)
