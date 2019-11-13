@@ -4,10 +4,6 @@ This repo is intended to accompany the Join 2019 presentation 'Programmatically 
 ----
 > Associated Libraries and Dependencies?
 This library primarily uses the two LookML Generators [lookml](https://github.com/llooker/lookml),  [lkml](https://github.com/joshtemple/lkml) written by Josh Temple and [Henry](https://pypi.org/project/henry/#henry-a-looker-cleanup-tool) a lookml cleanup command line tool.
-
-n.b. 
-Currently, lookml_gen is not aligned with the library lookml, I plan to merge the two but as of now there are some additions, such as field level permissioning in lookml_gen that doesn't exist in the lookml library.
-
 ----
 ## Code Samples
 These example code samples and outputs are meant to illustrate potential workflows that can exist when programatically generating LookML code for deployment to a Looker Instance.
